@@ -1,0 +1,54 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary: #0f172a;
+  --primary-dark: #020617;
+  --secondary: #64748b;
+  --accent: #ea580c;
+  --accent-gold: #d97706;
+  --background: #ffffff;
+  --foreground: #0f172a;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-white text-primary antialiased;
+}
+
+@layer utilities {
+  .section-padding {
+    @apply px-4 sm:px-6 lg:px-8 py-16 lg:py-24;
+  }
+  .container-custom {
+    @apply max-w-7xl mx-auto;
+  }
+  .heading-1 {
+    @apply text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-primary;
+  }
+  .heading-2 {
+    @apply text-2xl sm:text-3xl lg:text-4xl font-bold text-primary;
+  }
+  .heading-3 {
+    @apply text-xl sm:text-2xl font-semibold text-primary;
+  }
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* Smooth scroll for anchor links */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Focus visible for accessibility */
+:focus-visible {
+  @apply outline-2 outline-offset-2 outline-accent;
+}
