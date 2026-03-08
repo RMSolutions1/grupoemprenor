@@ -1,53 +1,44 @@
 # Despliegue – Grupo Emprenor
 
-Para dejar el sitio y los dashboards funcionando en su hosting, siga estos pasos. **Solo debe ejecutar el SQL y configurar variables de entorno.**
+El proyecto usa **PostgreSQL en Neon** (recomendado para Vercel). Solo hay que ejecutar el SQL en Neon y configurar dos variables de entorno.
 
-## 1. Ejecutar el SQL en la base de datos
+## 1. Base de datos en Neon
 
-1. Entrar a **phpMyAdmin** (o consola MySQL) de su hosting.
-2. Seleccionar la base de datos del proyecto (ej. `c2751446_grupoar`).
-3. Ir a la pestaña **SQL**.
-4. Abrir el archivo **`database/schema.sql`** del proyecto, copiar todo su contenido y pegarlo en el cuadro SQL.
-5. Pulsar **Continuar** / **Ejecutar**.
+1. Crear una base de datos en [Neon](https://neon.tech) (o usar la que ya tenga).
+2. En el panel de Neon, abrir **SQL Editor**.
+3. Copiar todo el contenido de **`database/schema-neon.sql`** del proyecto y pegarlo en el editor.
+4. Ejecutar el script. Se crearán las tablas y los datos iniciales (roles, servicios, configuración, oficinas).
 
-Con esto se crean todas las tablas y los datos iniciales (roles, servicios, configuración del sitio, oficinas). No es necesario ejecutar ningún otro script.
+## 2. Variables de entorno (Vercel)
 
-## 2. Variables de entorno en el hosting
+En **Vercel** → su proyecto → **Settings** → **Environment Variables**, añada:
 
-En el panel de su hosting (o en el archivo `.env` / `.env.local` si el servidor lo permite), configure:
+| Variable        | Descripción |
+|-----------------|-------------|
+| `DATABASE_URL`  | URL de conexión de Neon (recomendada la **pooled** con `?sslmode=require`). Se obtiene en Neon → Connection string. |
+| `JWT_SECRET`     | Clave para firmar sesiones (login). Ejemplo: `openssl rand -base64 32` |
 
-| Variable     | Descripción                          | Ejemplo           |
-|-------------|--------------------------------------|-------------------|
-| `DB_HOST`   | Host de MySQL (en local puede ser `source`) | `localhost`       |
-| `DB_USER`   | Usuario de la base de datos          | `c2751446_grupoar` |
-| `DB_PASSWORD` | Contraseña de la base de datos    | (su contraseña)   |
-| `DB_NAME`   | Nombre de la base de datos           | `c2751446_grupoar` |
-| `JWT_SECRET` | Clave secreta para las sesiones (login) | Una frase o string largo y aleatorio |
+Puede usar en lugar de `DATABASE_URL` la variable `POSTGRES_URL` si su panel la ofrece; la aplicación acepta ambas.
 
-Puede generar un valor seguro para `JWT_SECRET` con:  
-`openssl rand -base64 32` (en consola) o cualquier generador de contraseñas.
+**Importante:** no suba `.env.local` al repositorio; en producción use solo las variables del panel de Vercel.
 
-## 3. Desplegar la aplicación
+## 3. Desplegar
 
-- Subir el código del proyecto al hosting (por FTP, Git, o el método que use).
-- Asegurarse de que el servidor ejecute **Node.js** y que el sitio Next.js se inicie con `npm run build` y `npm run start` (o el proceso que configure su proveedor).
-- No suba el archivo `.env.local` si contiene datos sensibles; use las variables de entorno del panel del hosting.
+- Conectar el repo (GitHub, etc.) a Vercel y desplegar, o hacer push para redeploy.
+- Asegurarse de que en el build estén definidas `DATABASE_URL` y `JWT_SECRET`.
 
 ## 4. Crear el primer administrador
 
-1. Una vez desplegado, abra en el navegador: **`https://su-dominio.com/login/setup`**
-2. Complete: nombre, email y contraseña del primer usuario administrador.
+1. Abra **`https://su-dominio.vercel.app/login/setup`** (o su dominio).
+2. Complete nombre, email y contraseña del primer administrador.
 3. Pulse **Crear administrador**.
-4. Si todo es correcto, será redirigido al login. Entre con ese email y contraseña; accederá al **Panel de administración** en `/dashboard/admin`.
+4. Inicie sesión en **/login** y acceda al panel en **/dashboard/admin**.
 
-A partir de ahí puede gestionar **Contactos** (mensajes del formulario) y, en futuras fases, solicitudes, servicios, proyectos, blog y configuración del sitio, todo sin editar código.
+A partir de ahí puede gestionar **Contactos** y el resto de datos desde el panel.
 
 ## Resumen
 
-1. Ejecutar **`database/schema.sql`** en MySQL (phpMyAdmin o consola).  
-2. Configurar **DB_HOST**, **DB_USER**, **DB_PASSWORD**, **DB_NAME** y **JWT_SECRET** en el hosting.  
-3. Desplegar la app (Node.js + Next.js).  
-4. Ir a **/login/setup** y crear el primer administrador.  
-5. Iniciar sesión en **/login** y usar el panel en **/dashboard/admin**.
-
-No hace falta tocar la base de datos manualmente después del paso 1; el administrador trabaja solo desde el panel.
+1. Ejecutar **`database/schema-neon.sql`** en el SQL Editor de Neon.  
+2. Configurar **DATABASE_URL** (o **POSTGRES_URL**) y **JWT_SECRET** en Vercel.  
+3. Desplegar la app.  
+4. Ir a **/login/setup** y crear el primer administrador.

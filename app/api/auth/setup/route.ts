@@ -57,11 +57,11 @@ export async function POST(request: Request) {
     const raw = err instanceof Error ? err.message : String(err);
     let message = raw;
     if (raw.includes('ECONNREFUSED') || raw.includes('ENOTFOUND')) {
-      message = 'No se pudo conectar a la base de datos. Revise DB_HOST (use el host de su hosting si la BD está remota).';
-    } else if (raw.includes('Access denied') || raw.includes('ER_ACCESS_DENIED')) {
-      message = 'Usuario o contraseña de la base de datos incorrectos. Revise DB_USER y DB_PASSWORD en .env.local';
-    } else if (raw.includes('Unknown database') || raw.includes('ER_BAD_DB_ERROR')) {
-      message = 'La base de datos no existe. Revise DB_NAME en .env.local';
+      message = 'No se pudo conectar a la base de datos. Revise DATABASE_URL (Neon) en Vercel o .env.local.';
+    } else if (raw.includes('password') && raw.includes('authentication')) {
+      message = 'Usuario o contraseña de la base de datos incorrectos. Revise DATABASE_URL en .env.local.';
+    } else if (raw.includes('does not exist') || raw.includes('relation')) {
+      message = 'La base de datos o tablas no existen. Ejecute database/schema-neon.sql en el SQL Editor de Neon.';
     }
     return NextResponse.json({ error: message }, { status: 500 });
   }
