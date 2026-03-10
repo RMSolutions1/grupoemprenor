@@ -23,15 +23,18 @@ export default function AdminDashboardPage() {
             <p className="text-sm text-steel-500">Mensajes del formulario de contacto</p>
           </div>
         </Link>
-        <div className="flex items-center gap-4 rounded-xl border border-steel-200 bg-steel-50 p-6 opacity-75">
-          <div className="rounded-lg bg-steel-200 p-3">
-            <FileText className="h-8 w-8 text-steel-500" />
+        <Link
+          href="/dashboard/admin/solicitudes"
+          className="flex items-center gap-4 rounded-xl border border-steel-200 bg-white p-6 shadow-sm transition hover:border-accent hover:shadow"
+        >
+          <div className="rounded-lg bg-primary/10 p-3">
+            <FileText className="h-8 w-8 text-primary" />
           </div>
           <div>
-            <h2 className="font-semibold text-steel-600">Solicitudes</h2>
-            <p className="text-sm text-steel-500">Próximamente</p>
+            <h2 className="font-semibold text-primary">Solicitudes</h2>
+            <p className="text-sm text-steel-500">Cotizaciones y solicitudes desde calculadora y formularios</p>
           </div>
-        </div>
+        </Link>
       </div>
     </div>
   );

@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
-import { LayoutDashboard, Mail, LogOut, Menu } from 'lucide-react';
+import { LayoutDashboard, Mail, FileText, LogOut, Menu } from 'lucide-react';
 import { getToken, clearToken } from '@/lib/auth-client';
 
 export default function AdminLayout({
@@ -55,6 +55,7 @@ export default function AdminLayout({
   const nav = [
     { href: '/dashboard/admin', label: 'Inicio', icon: LayoutDashboard },
     { href: '/dashboard/admin/contactos', label: 'Contactos', icon: Mail },
+    { href: '/dashboard/admin/solicitudes', label: 'Solicitudes', icon: FileText },
   ];
 
   return (
