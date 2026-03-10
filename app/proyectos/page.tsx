@@ -5,6 +5,7 @@ import { ARQUITECTURA_PROYECTOS } from '@/lib/arquitectura-data';
 import { INGENIERIA_PROYECTOS } from '@/lib/ingenieria-data';
 import { REFRIGERACION_PROYECTOS } from '@/lib/refrigeracion-data';
 import { SOLUCIONES_ELECTRICAS_PROYECTOS } from '@/lib/soluciones-electricas-data';
+import { getPublicProjects, mapPublicProjectsToGalleryItems } from '@/lib/public-data';
 
 export const metadata: Metadata = {
   title: 'Proyectos',
@@ -16,7 +17,7 @@ function toProjectItem(p: { id: string; title: string; type: string; description
   return { id: p.id, title: p.title, type: p.type, description: p.description, image: p.image, href: '/proyectos', category: p.category };
 }
 
-const ALL_PROJECTS = [
+const STATIC_PROJECTS = [
   ...FEATURED_PROJECTS,
   ...ARQUITECTURA_PROYECTOS.map(toProjectItem),
   ...INGENIERIA_PROYECTOS.map(toProjectItem),
@@ -24,7 +25,12 @@ const ALL_PROJECTS = [
   ...SOLUCIONES_ELECTRICAS_PROYECTOS.map(toProjectItem),
 ];
 
-export default function ProyectosPage() {
+export default async function ProyectosPage() {
+  const fromDb = await getPublicProjects();
+  const projects = fromDb.length > 0
+    ? mapPublicProjectsToGalleryItems(fromDb)
+    : STATIC_PROJECTS;
+
   return (
     <section className="section-padding bg-white">
       <div className="container-custom">
@@ -33,7 +39,7 @@ export default function ProyectosPage() {
           Selección de obras y proyectos realizados por las divisiones de Grupo Emprenor.
         </p>
         <div className="mt-12">
-          <ProjectGallery projects={ALL_PROJECTS} columns={3} />
+          <ProjectGallery projects={projects} columns={3} />
         </div>
       </div>
     </section>

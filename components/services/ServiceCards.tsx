@@ -15,6 +15,13 @@ import {
 import { SERVICIOS } from '@/lib/constants';
 import { getDivisionImage } from '@/lib/service-assets';
 
+export type ServiceCardItem = { slug: string; title: string; shortTitle?: string; description: string; icon?: string };
+
+interface ServiceCardsProps {
+  /** Si se pasa, se usan estos servicios (ej. desde BD); si no, se usa SERVICIOS de constants */
+  services?: ServiceCardItem[] | null;
+}
+
 const iconMap: Record<string, LucideIcon> = {
   building: Building2,
   engineering: Cog,
@@ -37,7 +44,10 @@ const item = {
   show: { opacity: 1, y: 0 },
 };
 
-export function ServiceCards() {
+export function ServiceCards({ services }: ServiceCardsProps = {}) {
+  const list = (services && services.length > 0)
+    ? services.map((s) => ({ slug: s.slug, title: s.title, shortTitle: s.shortTitle, description: s.description || '', icon: s.icon || 'building' }))
+    : SERVICIOS;
   return (
     <motion.div
       variants={container}
@@ -46,7 +56,7 @@ export function ServiceCards() {
       viewport={{ once: true, margin: '-80px' }}
       className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
     >
-      {SERVICIOS.map((s) => {
+      {list.map((s) => {
         const Icon = iconMap[s.icon] ?? Building2;
         const divisionImage = getDivisionImage(s.slug);
         return (

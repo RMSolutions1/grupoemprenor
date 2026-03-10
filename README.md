@@ -47,6 +47,12 @@ npm start
 - Fondo: blanco
 - Acento: naranja (`#ea580c`)
 
+## Variables de entorno
+
+- `DATABASE_URL` – PostgreSQL (Neon). Obligatoria para datos dinámicos (servicios, proyectos, blog, oficinas, config).
+- `JWT_SECRET` – Secreto para sesiones de administración.
+- `BLOB_READ_WRITE_TOKEN` – (Opcional) Token de Vercel Blob para subir imágenes desde el panel de admin (proyectos y blog). Sin esta variable, la subida de imágenes fallará; se puede seguir usando URLs manuales. En Vercel: Storage → Blob → crear store y copiar el token; en local: `vercel env pull` o añadir a `.env.local`.
+
 ## Imágenes
 
-Las imágenes usan URLs de Unsplash. Para producción puede reemplazarlas por archivos en `/public/images` y actualizar las rutas en `lib/home-data.ts`, `lib/arquitectura-data.ts` y en los componentes.
+Las imágenes usan URLs de Unsplash. En el panel de administración (Dashboard → Proyectos / Blog) puede **subir imágenes** (Vercel Blob) o pegar una URL. Para que la subida funcione en producción, configure `BLOB_READ_WRITE_TOKEN` en Vercel. Para producción con archivos locales, puede usar `/public/images` y actualizar las rutas en `lib/home-data.ts`, `lib/arquitectura-data.ts` y en los componentes.

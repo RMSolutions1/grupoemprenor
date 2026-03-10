@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
-import { LayoutDashboard, Mail, FileText, LogOut, Menu } from 'lucide-react';
+import { LayoutDashboard, Mail, FileText, Briefcase, FolderKanban, Newspaper, Building2, Users, Settings, LogOut, Menu } from 'lucide-react';
 import { getToken, clearToken } from '@/lib/auth-client';
 
 export default function AdminLayout({
@@ -56,6 +56,12 @@ export default function AdminLayout({
     { href: '/dashboard/admin', label: 'Inicio', icon: LayoutDashboard },
     { href: '/dashboard/admin/contactos', label: 'Contactos', icon: Mail },
     { href: '/dashboard/admin/solicitudes', label: 'Solicitudes', icon: FileText },
+    { href: '/dashboard/admin/servicios', label: 'Servicios', icon: Briefcase },
+    { href: '/dashboard/admin/proyectos', label: 'Proyectos', icon: FolderKanban },
+    { href: '/dashboard/admin/blog', label: 'Blog', icon: Newspaper },
+    { href: '/dashboard/admin/oficinas', label: 'Oficinas', icon: Building2 },
+    { href: '/dashboard/admin/usuarios', label: 'Usuarios', icon: Users },
+    { href: '/dashboard/admin/configuracion', label: 'Configuración', icon: Settings },
   ];
 
   return (
